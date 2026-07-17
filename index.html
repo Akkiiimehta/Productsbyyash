@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yash Mehta — Product Manager Portfolio</title>
+<meta name="description" content="Product Manager portfolio — case studies, teardowns, and PRDs on Zepto, Swiggy Instamart, Jar, JioMart, and Cult.fit.">
+
+<link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Yash Mehta — Product Manager Portfolio">
+<meta property="og:description" content="Product Manager portfolio — case studies, teardowns, and PRDs on Zepto, Swiggy Instamart, Jar, JioMart, and Cult.fit.">
+<meta property="og:image" content="https://yashmehtawork.netlify.app/assets/og-image.jpg">
+<meta property="og:url" content="https://yashmehtawork.netlify.app">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Yash Mehta — Product Manager Portfolio">
+<meta name="twitter:description" content="Product Manager portfolio — case studies, teardowns, and PRDs on Zepto, Swiggy Instamart, Jar, JioMart, and Cult.fit.">
+<meta name="twitter:image" content="https://yashmehtawork.netlify.app/assets/og-image.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
+<style>
+
+  :root{
+    --bg:#040302;
+    --surface:#0E0C0A;
+    --surface-2:#161311;
+    --paper:#F3EEE6;
+    --paper-dim:#9A9088;
+    --glow:#FF6A3D;
+    --glow-soft:#FFB199;
+    --violet:#8B6CF6;
+    --line:rgba(243,238,230,0.12);
+    --serif: 'Instrument Serif', serif;
+    --sans: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
+  }
+
+  body{
+    background:var(--bg);
+    color:var(--paper);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+    overflow-x:hidden;
+    cursor:none;
+  }
+  @media (hover:none){ body{ cursor:auto; } }
+
+  a{ color:inherit; text-decoration:none; }
+  ::selection{ background:var(--glow); color:var(--bg); }
+  :focus-visible{ outline:2px solid var(--glow); outline-offset:3px; }
+
+  .wrap{ max-width:1440px; margin:0 auto; padding:0 40px; position:relative; z-index:2; }
+  @media (max-width:640px){ .wrap{ padding:0 22px; } }
+
+  .grain{
+    position:fixed; inset:0; z-index:500; pointer-events:none; opacity:0.05; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- Intro ---------- */
+  .intro{
+    position:fixed; inset:0; z-index:9000; background:var(--bg);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    transition:transform .9s cubic-bezier(.76,0,.24,1);
+  }
+  .intro.leaving{ transform:translateY(-100%); }
+  .intro-word{ font-family:var(--serif); font-style:italic; font-size:clamp(40px,9vw,100px); color:var(--paper); opacity:0; animation:fadeUp 0.9s ease forwards; }
+  .intro-count{ font-family:var(--mono); font-size:12px; letter-spacing:0.2em; color:var(--paper-dim); margin-top:18px; opacity:0; animation:fadeUp 0.9s ease 0.2s forwards; }
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(14px);} to{ opacity:1; transform:translateY(0);} }
+  body.intro-active{ overflow:hidden; height:100vh; }
+
+  /* ---------- Custom cursor ---------- */
+  .cursor-dot{ position:fixed; top:0; left:0; width:6px; height:6px; border-radius:50%; background:var(--paper); pointer-events:none; z-index:9999; transform:translate(-50%,-50%); }
+  .cursor-pill{
+    position:fixed; top:0; left:0; pointer-events:none; z-index:9998;
+    width:0; height:0; border-radius:100px; background:var(--glow); color:var(--bg);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono); font-size:0; text-transform:uppercase; letter-spacing:0.05em;
+    transform:translate(-50%,-50%);
+    transition:width .3s cubic-bezier(.2,.8,.2,1), height .3s cubic-bezier(.2,.8,.2,1), font-size .3s ease, background .3s ease;
+    white-space:nowrap;
+  }
+  .cursor-pill.show{ width:96px; height:96px; font-size:12px; }
+  .cursor-pill.nav-hover{ width:60px; height:60px; font-size:11px; background:var(--paper); }
+  @media (hover:none){ .cursor-dot, .cursor-pill{ display:none; } }
+
+  /* ---------- Nav ---------- */
+  nav{ position:sticky; top:0; z-index:100; background:rgba(10,9,8,0.72); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+  nav .wrap{ display:flex; align-items:center; justify-content:space-between; padding:22px 40px; }
+  .logo{ font-family:var(--serif); font-style:italic; font-size:24px; }
+  .logo sup{ font-size:11px; font-style:normal; color:var(--glow); }
+  .nav-links{ display:flex; gap:32px; font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--paper-dim); }
+  .nav-links a:hover{ color:var(--paper); }
+  @media (max-width:820px){ .nav-links{ display:none; } }
+
+  .cta-btn{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.06em;
+    background:var(--paper); color:var(--bg); padding:12px 22px; border-radius:100px; font-weight:500;
+    display:inline-flex; align-items:center; gap:8px; transition:background .2s ease, transform .2s ease;
+  }
+  .cta-btn::before{ content:'✳'; color:var(--glow); }
+  .cta-btn:hover{ background:var(--glow-soft); transform:translateY(-2px); }
+
+  /* ---------- Hero ---------- */
+  .hero{ position:relative; padding:130px 0 60px; min-height:560px; overflow:hidden; }
+  .parallax-text{ position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden; padding-right:6%; box-sizing:border-box; }
+  .parallax-text span{
+    position:absolute; font-family:var(--serif); font-style:italic; font-weight:400;
+    color:transparent; -webkit-text-stroke:1px rgba(243,238,230,0.16);
+    white-space:nowrap; will-change:transform;
+  }
+  .hero-inner{ position:relative; z-index:2; pointer-events:none; }
+  .hero-inner a{ pointer-events:auto; }
+
+  /* Spline 3D scene stage (replaces the CSS cube) + cursor spotlight glow */
+  .spline-stage{
+    position:absolute; top:0; right:-2%; z-index:1;
+    width:52%; height:100%; background:var(--bg);
+    pointer-events:auto; overflow:hidden; border-radius:20px;
+  }
+  .spline-stage spline-viewer{ width:100%; height:100%; display:block; transform:scale(1.35); transform-origin:center center; }
+  .spline-fallback{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono); font-size:12px; color:var(--paper-dim); text-align:center; padding:20px;
+  }
+  .spotlight-glow{
+    position:absolute; width:320px; height:320px; border-radius:50%;
+    background:radial-gradient(circle at center, rgba(255,255,255,0.32), rgba(255,255,255,0.08) 45%, transparent 75%);
+    filter:blur(4px); pointer-events:none; z-index:2;
+    opacity:0; transition:opacity .25s ease;
+    transform:translate(-50%,-50%);
+  }
+  .spotlight-glow.active{ opacity:1; }
+  @media (max-width:980px){ .spline-stage{ width:60%; height:60%; top:auto; bottom:2%; right:2%; opacity:0.85; } }
+  @media (max-width:640px){ .spline-stage{ display:none; } }
+
+  .hero-eyebrow{ font-family:var(--mono); font-size:11px; color:var(--glow-soft); text-transform:uppercase; letter-spacing:0.15em; margin-bottom:26px; display:flex; align-items:center; gap:10px; }
+  .hero-eyebrow::before{ content:''; width:28px; height:1px; background:var(--glow-soft); }
+
+  .hero h1{ font-family:var(--serif); font-weight:400; font-style:italic; font-size:clamp(48px, 8.6vw, 118px); line-height:0.96; letter-spacing:-0.01em; max-width:920px; }
+  .hero h1 .roman{ font-style:normal; }
+
+  .hero-dek{ margin-top:30px; max-width:480px; font-size:17px; color:var(--paper-dim); }
+  .hero-actions{ margin-top:42px; display:flex; gap:18px; flex-wrap:wrap; align-items:center; }
+  .hero-actions .ghost-link{ font-family:var(--mono); font-size:12px; border-bottom:1px solid var(--paper-dim); padding-bottom:3px; color:var(--paper-dim); transition:color .2s, border-color .2s; }
+  .hero-actions .ghost-link:hover{ color:var(--paper); border-color:var(--paper); }
+
+  /* ---------- Metrics slate ---------- */
+  .slate-section{ position:relative; z-index:2; padding:0 0 40px; }
+  .slate-head{ display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px; margin-bottom:24px; }
+  .slate-panel{
+    position:relative; height:380px; border-radius:22px; overflow:hidden;
+    border:1px solid var(--line); background:radial-gradient(circle at 50% 40%, #16110D 0%, #0A0908 75%);
+    background-image:
+      radial-gradient(circle at 50% 40%, #16110D 0%, #0A0908 75%),
+      radial-gradient(rgba(243,238,230,0.06) 1px, transparent 1.5px);
+    background-size: auto, 20px 20px;
+    cursor:none;
+  }
+  .slate-glow{
+    position:absolute; width:340px; height:340px; border-radius:50%;
+    background:radial-gradient(circle at center, rgba(255,255,255,0.10), rgba(255,177,153,0.05) 45%, transparent 75%);
+    filter:blur(10px); pointer-events:none; z-index:1;
+    opacity:0; transition:opacity .3s ease;
+    transform:translate(-50%,-50%);
+  }
+  .slate-hint{
+    position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
+    font-family:var(--mono); font-size:11px; color:var(--paper-dim); letter-spacing:0.08em;
+    text-transform:uppercase; opacity:0.6; pointer-events:none; z-index:2;
+  }
+  .metric-label{
+    position:absolute; pointer-events:none; opacity:0; transition:opacity .15s ease; z-index:2;
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight:700; font-size:13px; color:var(--glow-soft); letter-spacing:0.03em;
+    transform:translate(-50%,-50%); text-align:center; white-space:nowrap;
+  }
+  .metric-label .metric-value{ display:block; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight:700; font-size:32px; color:var(--paper); margin-top:4px; }
+
+  /* ---------- Marquee ---------- */
+  .marquee-strip{ border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:26px 0; margin-top:30px; overflow:hidden; white-space:nowrap; position:relative; z-index:2; }
+  .marquee-track{ display:inline-flex; gap:64px; animation:scroll-left 30s linear infinite; }
+  .marquee-track span{ font-family:var(--mono); font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:var(--paper-dim); display:inline-flex; align-items:center; gap:64px; opacity:0.75; }
+  @keyframes scroll-left{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+
+  .brand-marquee{
+    border-bottom:1px solid var(--line); padding:14px 0; overflow:hidden; white-space:nowrap;
+    position:relative; z-index:2; background:var(--surface);
+  }
+  .brand-track{ display:inline-flex; gap:36px; animation:scroll-right 26s linear infinite; }
+  .brand-track span{
+    font-family:var(--serif); font-style:italic; font-weight:400; font-size:clamp(15px,1.8vw,19px);
+    color:var(--paper-dim); opacity:0.85; display:inline-flex; align-items:center; gap:36px;
+    transition:opacity .2s ease, color .2s ease;
+  }
+  .brand-track span:hover{ opacity:1; color:var(--paper); }
+  .brand-track span::after{ content:'✳'; font-family:var(--mono); font-style:normal; font-size:10px; color:var(--glow); opacity:0.7; }
+  @keyframes scroll-right{ from{ transform:translateX(-50%); } to{ transform:translateX(0); } }
+
+  /* ---------- Sections ---------- */
+  .section{ padding:100px 0; position:relative; z-index:2; }
+
+  /* ---------- About ---------- */
+  .about{ padding:90px 0; border-bottom:1px solid var(--line); position:relative; z-index:2; }
+  .about-grid{ display:grid; grid-template-columns:180px 1fr; gap:48px; align-items:start; }
+  @media (max-width:700px){ .about-grid{ grid-template-columns:1fr; justify-items:center; text-align:center; } }
+  .about-avatar{
+    width:180px; height:180px; border-radius:50%; flex:none;
+    background:linear-gradient(140deg, var(--glow), var(--violet));
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--serif); font-style:italic; font-size:64px; color:var(--bg);
+    border:1px solid rgba(243,238,230,0.25);
+  }
+  .about-bio p{ font-size:17px; color:var(--paper-dim); max-width:640px; margin-bottom:16px; line-height:1.7; }
+  .about-bio p strong{ color:var(--paper); font-weight:600; }
+  .about-facts{ display:flex; gap:10px; flex-wrap:wrap; margin-top:20px; }
+  .about-facts span{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.05em;
+    padding:8px 14px; border-radius:100px; border:1px solid var(--line); color:var(--paper-dim);
+  }
+  .section-head{ display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:16px; margin-bottom:44px; }
+  .section-label{ font-family:var(--mono); font-size:11px; color:var(--glow-soft); text-transform:uppercase; letter-spacing:0.1em; }
+  .section-title{ font-family:var(--serif); font-style:italic; font-weight:400; font-size:clamp(32px,4.5vw,52px); margin-top:8px; }
+  .section-count{ font-family:var(--mono); font-size:11px; color:var(--paper-dim); }
+
+  .filters{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:36px; }
+  .filter-btn{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.05em;
+    padding:9px 16px; border-radius:100px; border:1px solid var(--line); background:transparent; color:var(--paper-dim); cursor:none; transition:all .2s;
+  }
+  .filter-btn:hover{ border-color:var(--paper-dim); color:var(--paper); }
+  .filter-btn.active{ background:var(--paper); border-color:var(--paper); color:var(--bg); }
+
+  /* ---------- Grid (3 columns) ---------- */
+  .grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:26px; }
+  @media (max-width:980px){ .grid{ grid-template-columns:repeat(2, 1fr); } }
+  @media (max-width:640px){ .grid{ grid-template-columns:1fr; } }
+
+  .card{
+    background:var(--surface); border-radius:18px; overflow:hidden; border:1px solid var(--line);
+    opacity:0; transform:translateY(20px); transition:opacity .5s ease, transform .5s ease, border-color .3s ease;
+  }
+  .card.visible{ opacity:1; transform:translateY(0); }
+  .card:hover{ border-color:rgba(255,106,61,0.4); }
+
+  .card-cover{ height:230px; position:relative; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between; padding:18px; cursor:none; }
+  .card-cover::before{
+    content:''; position:absolute; inset:0; z-index:0;
+    background-image:
+      radial-gradient(circle at 22% 20%, rgba(255,177,153,0.16), transparent 42%),
+      radial-gradient(rgba(243,238,230,0.09) 1px, transparent 1.5px);
+    background-size: auto, 18px 18px;
+  }
+  .card-cover::after{ content:''; position:absolute; inset:0; background:linear-gradient(180deg, rgba(10,9,8,0.1) 0%, rgba(10,9,8,0.85) 100%); z-index:1; }
+  .card-chart{ position:absolute; left:0; right:0; bottom:0; width:100%; height:62%; z-index:0; opacity:0.9; }
+  .card-word{ position:relative; z-index:2; font-family:var(--serif); font-style:italic; font-size:42px; line-height:0.85; color:transparent; -webkit-text-stroke:1px rgba(243,238,230,0.55); align-self:flex-end; text-align:right; transition:transform .5s ease; }
+  .card:hover .card-word{ transform:translateY(-6px); }
+
+  .card-tag{ position:relative; z-index:2; align-self:flex-start; font-family:var(--mono); font-size:10px; text-transform:uppercase; letter-spacing:0.06em; padding:5px 12px; border-radius:100px; background:rgba(10,9,8,0.55); backdrop-filter:blur(6px); border:1px solid rgba(243,238,230,0.25); }
+
+  .card-body{ padding:20px 20px 22px; }
+  .card-body h3{ font-family:var(--sans); font-size:16px; font-weight:600; letter-spacing:-0.005em; margin-bottom:8px; }
+  .card-dek{ color:var(--paper-dim); font-size:13px; margin-bottom:14px; }
+  .card-meta{ display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:11px; color:var(--paper-dim); padding-top:14px; border-top:1px solid var(--line); }
+  .card-meta .card-toggle{ cursor:none; }
+  .card-toggle-btn{
+    font-family:var(--mono); font-size:11px; color:var(--paper-dim); background:none; border:none;
+    padding:2px; cursor:none; transition:color .2s ease;
+  }
+  .card-toggle-btn:hover, .card-toggle-btn:focus-visible{ color:var(--paper); }
+  .card-toggle-btn:focus-visible{ outline:2px solid var(--glow); outline-offset:3px; }
+  .card-meta .card-toggle:hover{ color:var(--paper); }
+
+  .card-detail{ max-height:0; overflow:hidden; transition:max-height .4s ease; }
+  .card.open .card-detail{ max-height:260px; }
+  .card-detail-inner{ padding-top:16px; }
+  .card-summary{ font-size:13px; color:var(--paper-dim); line-height:1.65; margin-bottom:16px; }
+  .card-actions{ display:flex; gap:8px; flex-wrap:wrap; }
+  .card-actions a{ font-family:var(--mono); font-size:11px; padding:9px 14px; border-radius:100px; border:1px solid var(--paper); transition:all .2s; }
+  .card-actions a.primary{ background:var(--paper); color:var(--bg); }
+  .card-actions a.primary:hover{ background:var(--glow); border-color:var(--glow); color:var(--bg); }
+  .card-actions a.secondary{ border-color:var(--line); color:var(--paper-dim); }
+  .card-actions a.secondary:hover{ border-color:var(--paper); color:var(--paper); }
+
+  .card.device .card-cover{ display:flex; align-items:center; justify-content:center; padding:20px 0 0; }
+  .phone{ width:120px; height:230px; border:5px solid #2A2622; border-radius:22px; background:#0E0D0C; position:relative; z-index:2; overflow:hidden; box-shadow:0 16px 32px rgba(0,0,0,0.5); }
+  .phone-notch{ position:absolute; top:7px; left:50%; transform:translateX(-50%); width:38px; height:5px; border-radius:4px; background:#2A2622; z-index:3; }
+  .phone-screen{ position:absolute; inset:0; background:linear-gradient(160deg,var(--surface-2),var(--bg)); padding:18px 10px; }
+  .phone-line{ height:5px; border-radius:3px; background:rgba(243,238,230,0.15); margin-bottom:7px; }
+  .phone-line.short{ width:60%; }
+  .phone-line.accent{ background:var(--glow); width:40%; margin-top:14px; }
+
+  /* ---------- Process ---------- */
+  .process-list{ border-top:1px solid var(--line); }
+  .process-item{ display:grid; grid-template-columns:70px 1fr 1fr; gap:24px; padding:34px 16px; margin:0 -16px; box-sizing:border-box; border-bottom:1px solid var(--line); align-items:baseline; transition:background .25s ease; cursor:none; }
+  .process-item:hover{ background:rgba(255,106,61,0.06); }
+  @media (max-width:820px){ .process-item{ grid-template-columns:44px 1fr; } .process-item .process-desc{ grid-column:2; } }
+  .process-num{ font-family:var(--mono); font-size:13px; color:var(--glow); }
+  .process-name{ font-family:var(--serif); font-style:italic; font-size:28px; font-weight:400; }
+  .process-desc{ color:var(--paper-dim); font-size:14px; max-width:400px; }
+
+  /* ---------- Closer ---------- */
+  .closer{ text-align:center; padding:150px 0 130px; }
+  .closer h2{ font-family:var(--serif); font-style:italic; font-weight:400; font-size:clamp(38px,6.5vw,76px); line-height:1.05; }
+  .closer h2 .roman{ font-style:normal; color:var(--glow); font-family:var(--sans); font-weight:600; }
+  .closer-cta{ margin-top:40px; }
+
+  .contact-form{
+    max-width:520px; margin:56px auto 0; text-align:left;
+    display:flex; flex-direction:column; gap:16px;
+  }
+  .contact-form .field{ display:flex; flex-direction:column; gap:8px; }
+  .contact-form label{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--paper-dim);
+  }
+  .contact-form input, .contact-form textarea{
+    background:var(--surface); border:1px solid var(--line); border-radius:10px;
+    padding:12px 14px; font-family:var(--sans); font-size:14px; color:var(--paper);
+    transition:border-color .2s ease;
+  }
+  .contact-form input:focus, .contact-form textarea:focus{
+    outline:none; border-color:var(--glow);
+  }
+  .contact-form textarea{ resize:vertical; min-height:100px; }
+  .contact-form .submit-row{ display:flex; align-items:center; gap:16px; margin-top:4px; }
+  .contact-form button[type="submit"]{
+    font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:0.06em;
+    background:var(--paper); color:var(--bg); padding:12px 24px; border-radius:100px; border:none;
+    cursor:none; transition:background .2s ease, transform .2s ease;
+  }
+  .contact-form button[type="submit"]:hover{ background:var(--glow); transform:translateY(-2px); }
+  .contact-form .form-status{ font-family:var(--mono); font-size:12px; color:var(--paper-dim); }
+  .contact-form .form-status.success{ color:var(--glow-soft); }
+  .contact-form .hp-field{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+
+  footer{ border-top:1px solid var(--line); padding:32px 0; font-family:var(--mono); font-size:11px; color:var(--paper-dim); position:relative; z-index:2; }
+  footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  .footer-socials{ display:flex; gap:18px; }
+  .footer-socials a:hover{ color:var(--paper); }
+
+</style>
+</head>
+<body class="intro-active">
+
+  <div class="grain"></div>
+
+  <div class="intro" id="intro">
+    <div class="intro-word">Portfolio.</div>
+    <div class="intro-count" id="introCount">Loading — 0%</div>
+  </div>
+
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-pill" id="cursorPill">View</div>
+
+  <nav>
+    <div class="wrap">
+      <div class="logo">Yash Mehta<sup>®</sup></div>
+      <div class="nav-links">
+        <a href="#about" class="hoverable">About</a>
+        <a href="#work" class="hoverable">Work</a>
+        <a href="#process" class="hoverable">Process</a>
+        <a href="#contact" class="hoverable">Contact</a>
+      </div>
+      <a class="cta-btn hoverable" href="mailto:yashmehtaoffice@gmail.com">Start a Conversation</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="parallax-text" id="parallaxText">
+      <span data-speed="0.15" style="top:10%; right:14%; font-size:clamp(28px,4vw,52px);">Strategy</span>
+      <span data-speed="-0.12" style="top:82%; right:22%; font-size:clamp(26px,3.5vw,46px);">Shipped</span>
+      <span data-speed="0.25" style="top:24%; right:32%; font-size:clamp(22px,3vw,38px);">Research</span>
+      <span data-speed="-0.2" style="top:70%; right:8%; font-size:clamp(24px,3.2vw,42px);">Impact</span>
+      <span data-speed="0.08" style="top:46%; right:26%; font-size:clamp(20px,2.8vw,34px);">Metrics</span>
+    </div>
+    <div class="spline-stage" id="splineStage">
+      <spline-viewer url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" loading-anim-type="spinner-small-dark">
+        <div class="spline-fallback">3D scene loading — if this stays empty, your browser may be blocking WebGL or the external scene.</div>
+      </spline-viewer>
+      <div class="spotlight-glow" id="spotlightGlow"></div>
+    </div>
+    <div class="wrap hero-inner">
+      <div class="hero-eyebrow">Product Manager — Portfolio Vol. 01</div>
+      <h1>Product work<br><span class="roman">built for</span> impact.</h1>
+      <p class="hero-dek">Case studies, teardowns, and PRDs from the products I've shipped — the thinking behind what worked.</p>
+      <div class="hero-actions">
+        <a class="cta-btn hoverable" href="#work">View the Work</a>
+        <a class="ghost-link hoverable" href="#" target="_blank">Resume (PDF)</a>
+        <a class="ghost-link hoverable" href="https://linktr.ee/MehtaYash" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="slate-section wrap">
+    <div class="slate-head">
+      <div>
+        <div class="section-label">The Details</div>
+        <div class="section-title" style="font-size:clamp(24px,3vw,34px);">Move your cursor to surface the numbers</div>
+      </div>
+    </div>
+    <div class="slate-panel" id="slatePanel">
+      <div class="slate-hint">Hover to reveal</div>
+    </div>
+  </section>
+
+  <div class="marquee-strip">
+    <div class="marquee-track" id="marquee"></div>
+  </div>
+
+  <div class="brand-marquee">
+    <div class="brand-track" id="brandMarquee"></div>
+  </div>
+
+  <section class="about" id="about">
+    <div class="wrap about-grid">
+      <div class="about-avatar">YM</div>
+      <div class="about-bio">
+        <p><strong>I'm Yash Mehta</strong>, a product manager who writes the way I'd want a PM candidate's portfolio to read — real problems, real trade-offs, real numbers, not just polished outcomes.</p>
+        <p>Most of my public work is teardowns and feature redesigns on products I actually use — Zepto, Swiggy Instamart, Jar, JioMart, and Cult.fit — picking apart why a feature works, where it's quietly failing users, and what I'd ship differently.</p>
+        <div class="about-facts">
+          <span>B.Tech, AI &amp; Data Science — SAKEC</span>
+          <span>Based in India</span>
+          <span>6 case studies published</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="work">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="section-label">Featured Work</div>
+          <div class="section-title">Selected case studies</div>
+        </div>
+        <div class="section-count"><span id="entry-count">6</span> entries</div>
+      </div>
+
+      <div class="filters" id="filters">
+        <button class="filter-btn active hoverable" data-filter="all">All</button>
+        <button class="filter-btn hoverable" data-filter="project">Projects</button>
+        <button class="filter-btn hoverable" data-filter="case-study">Case Studies</button>
+        <button class="filter-btn hoverable" data-filter="teardown">Teardowns</button>
+        <button class="filter-btn hoverable" data-filter="prd">PRDs</button>
+      </div>
+
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section class="section" id="process">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="section-label">How I Work</div>
+          <div class="section-title">From problem to shipped</div>
+        </div>
+      </div>
+      <div class="process-list">
+        <div class="process-item">
+          <div class="process-num">01</div>
+          <div class="process-name">Discover</div>
+          <div class="process-desc">User interviews, data-pulls, and competitive teardowns to find the real problem before scoping anything.</div>
+        </div>
+        <div class="process-item">
+          <div class="process-num">02</div>
+          <div class="process-name">Define</div>
+          <div class="process-desc">A PRD that cuts scope on purpose — clear success metrics, edge cases named, trade-offs written down.</div>
+        </div>
+        <div class="process-item">
+          <div class="process-num">03</div>
+          <div class="process-name">Build</div>
+          <div class="process-desc">Working alongside design and eng day to day, unblocking decisions instead of just tracking them.</div>
+        </div>
+        <div class="process-item">
+          <div class="process-num">04</div>
+          <div class="process-name">Measure</div>
+          <div class="process-desc">Reading the results honestly — what moved, what didn't, and what that means for the next bet.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="closer" id="contact">
+    <div class="wrap">
+      <h2>Have a hard product problem?<br><span class="roman">Let's talk.</span></h2>
+      <div class="closer-cta">
+        <a class="cta-btn hoverable" href="mailto:yashmehtaoffice@gmail.com" style="padding:16px 32px; font-size:12px;">yashmehtaoffice@gmail.com</a>
+      </div>
+
+      <form class="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="contactForm">
+        <input type="hidden" name="form-name" value="contact">
+        <p class="hp-field"><label>Don't fill this out if you're human: <input name="bot-field"></label></p>
+
+        <div class="field">
+          <label for="cf-name">Name</label>
+          <input type="text" id="cf-name" name="name" required>
+        </div>
+        <div class="field">
+          <label for="cf-email">Email</label>
+          <input type="email" id="cf-email" name="email" required>
+        </div>
+        <div class="field">
+          <label for="cf-message">Message</label>
+          <textarea id="cf-message" name="message" required></textarea>
+        </div>
+        <div class="submit-row">
+          <button type="submit" class="hoverable">Send message</button>
+          <span class="form-status" id="formStatus"></span>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <span>© 2026 Yash Mehta — Product Manager</span>
+      <div class="footer-socials">
+        <a href="#" target="_blank" class="hoverable">Twitter</a>
+        <a href="https://linktr.ee/MehtaYash" target="_blank" class="hoverable">LinkedIn</a>
+        <a href="#" target="_blank" class="hoverable">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+<script>
+
+  /* ===================== Intro sequence ===================== */
+  (function(){
+    const introEl = document.getElementById('intro');
+    const countEl = document.getElementById('introCount');
+    let pct = 0;
+    const timer = setInterval(() => {
+      pct += Math.floor(Math.random() * 14) + 6;
+      if (pct >= 100){
+        pct = 100;
+        clearInterval(timer);
+        countEl.textContent = 'Loading — 100%';
+        setTimeout(() => {
+          introEl.classList.add('leaving');
+          document.body.classList.remove('intro-active');
+          setTimeout(() => introEl.remove(), 950);
+        }, 300);
+        return;
+      }
+      countEl.textContent = 'Loading — ' + pct + '%';
+    }, 120);
+  })();
+
+  /* ===================== Custom cursor ===================== */
+  (function(){
+    const dot = document.getElementById('cursorDot');
+    const pill = document.getElementById('cursorPill');
+    let mx = window.innerWidth/2, my = window.innerHeight/2;
+    let px = mx, py = my;
+
+    window.addEventListener('mousemove', (e) => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+    });
+
+    function loop(){
+      px += (mx - px) * 0.16;
+      py += (my - py) * 0.16;
+      pill.style.left = px + 'px'; pill.style.top = py + 'px';
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    document.addEventListener('mouseover', (e) => {
+      const card = e.target.closest('.card-cover');
+      const navish = e.target.closest('.cta-btn, .filter-btn, .ghost-link, nav a, .process-item');
+      if (card){ pill.classList.add('show'); pill.textContent = 'View'; }
+      else if (navish){ pill.classList.add('show','nav-hover'); pill.textContent = ''; }
+    });
+    document.addEventListener('mouseout', (e) => {
+      const card = e.target.closest('.card-cover');
+      const navish = e.target.closest('.cta-btn, .filter-btn, .ghost-link, nav a, .process-item');
+      if (card || navish){ pill.classList.remove('show','nav-hover'); }
+    });
+  })();
+
+  /* ===================== Data: edit with your real work ===================== */
+  /* This is the single source of truth — both the project grid AND the */
+  /* "move your cursor" slate below pull from this same array. Add Zepto, */
+  /* your case studies, PRDs, etc. here and they'll show up in both places. */
+  const entries = [
+    { type:"case-study", tagLabel:"Case Study", word:"Zepto", title:"Zepto — Search Redesign", dek:"Redesigning Zepto's search from a keyword lookup into a demand-understanding system.", date:"2025",
+      stat:{ label:"Search-to-cart target", value:"+18%" },
+      bg:"linear-gradient(160deg,#1C1613,#0A0908)",
+      thumb:"./assets/thumbs/Zepto_Search_Feature_Redesign_YashMehta.jpg",
+      summary:"A redesign of Zepto's in-app search — smart sort/filter controls, variant deduplication, and behavioural personalisation — sequenced into shippable tiers with a clear conversion and AOV target.",
+      links:[{label:"Read PDF",href:"./docs/Zepto_Search_Feature_Redesign_YashMehta.pdf",primary:true}] },
+    { type:"teardown", tagLabel:"Teardown", word:"Swiggy", title:"Swiggy Instamart — Feature Teardown", dek:"How a ₹31 wallet top-up turned checkout frustration into a retention loop.", date:"2025",
+      stat:{ label:"Mechanic", value:"Wallet loop" },
+      bg:"linear-gradient(160deg,#1A1A16,#0A0908)",
+      thumb:"./assets/thumbs/Swiggy_FeatureTeardown_YashMehta.jpg",
+      summary:"A breakdown of Instamart's free-delivery wallet top-up — how one small checkout fix removes friction, protects delivery margin, and creates a reason to return, all in a single tap.",
+      links:[{label:"Read PDF",href:"./docs/Swiggy_FeatureTeardown_YashMehta.pdf",primary:true}] },
+    { type:"teardown", tagLabel:"Teardown", word:"Jar", title:"Jar — Product Teardown", dek:"How a ₹10-a-day gold savings app cracked Tier 2/3 India's trust barrier.", date:"2025",
+      stat:{ label:"Registered users", value:"35M+" },
+      bg:"linear-gradient(160deg,#1E1512,#0A0908)",
+      thumb:"./assets/thumbs/Jar_Teardown_YashMehta.jpg",
+      summary:"A teardown of Jar's round-up + UPI AutoPay mechanic, its shift to a vertically integrated gold business, and the regulatory risk sitting underneath its entire product.",
+      links:[{label:"Read PDF",href:"./docs/Jar_Teardown_YashMehta.pdf",primary:true}] },
+    { type:"case-study", tagLabel:"Case Study", word:"JioMart", title:"JioMart — Feature Redesign", dek:"Why JioMart's post-payment silence is a product failure, not a logistics one.", date:"2025",
+      stat:{ label:"Post-issue retention target", value:"+25%" },
+      bg:"linear-gradient(160deg,#191613,#0A0908)",
+      thumb:"./assets/thumbs/JioMart_Silent_Failure_Feature_Redesign_YashMehta.jpg",
+      summary:"A redesign of JioMart's post-payment experience — a Fulfilment Trust Layer that locks availability before payment, notifies users proactively when items drop, and fixes a broken wallet-refund default.",
+      links:[{label:"Read PDF",href:"./docs/JioMart_Silent_Failure_Feature_Redesign_YashMehta.pdf",primary:true}] },
+    { type:"teardown", tagLabel:"Teardown", word:"Cult.fit", title:"Cult.fit — Product Breakdown", dek:"Cult.fit fixed its business model. The product still hasn't caught up.", date:"2025",
+      stat:{ label:"FY25 revenue", value:"+31% YoY" },
+      bg:"linear-gradient(160deg,#1B1815,#0A0908)",
+      thumb:"./assets/thumbs/CultFit_Product_Breakdown_YashMehta.jpg",
+      summary:"An analysis of Cult.fit's overexpansion and 2022-23 restructuring, why the app still doesn't justify itself outside a Cult centre, and three product bets ahead of its planned IPO.",
+      links:[{label:"Read PDF",href:"./docs/CultFit_Product_Breakdown_YashMehta.pdf",primary:true}] },
+    { type:"teardown", tagLabel:"Teardown", word:"Snabbit", title:"Snabbit — Product Teardown", dek:"How Snabbit applied Zepto's 10-minute density playbook to India's ₹60B home-services market.", date:"2026",
+      stat:{ label:"Monthly jobs (Mar 2026)", value:"1M+" },
+      bg:"linear-gradient(160deg,#1D1713,#0A0908)",
+      thumb:"./assets/thumbs/Snabbit_Teardown_YashMehta.jpg",
+      summary:"A teardown of Snabbit's nano-market rollout and captive-supply model — how a 700–800m dispatch radius, a 100% women workforce, and multi-day booking turned an emergency fallback into a daily habit, plus the support and unit-economics risks that could break it.",
+      links:[{label:"Read PDF",href:"./docs/Snabbit_Teardown_YashMehta.pdf",primary:true}] }
+  ];
+
+  /* ===================== Parallax text layer (replaces hover mosaic) ===================== */
+  (function(){
+    const layer = document.getElementById('parallaxText');
+    const words = Array.from(layer.querySelectorAll('span'));
+
+    function update(){
+      const scrollY = window.scrollY;
+      words.forEach(w => {
+        const speed = parseFloat(w.dataset.speed);
+        w.style.transform = `translateY(${scrollY * speed}px)`;
+      });
+    }
+    window.addEventListener('scroll', update, { passive:true });
+    update();
+  })();
+
+  /* ===================== Spotlight glow over the Spline stage — mouse AND touch (vanilla JS equivalent of the Framer Motion Spotlight) ===================== */
+  (function(){
+    const stage = document.getElementById('splineStage');
+    const glow = document.getElementById('spotlightGlow');
+    if (!stage || !glow) return;
+
+    let curX = -9999, curY = -9999, targetX = -9999, targetY = -9999;
+
+    function setFromPoint(clientX, clientY){
+      const rect = stage.getBoundingClientRect();
+      targetX = clientX - rect.left;
+      targetY = clientY - rect.top;
+    }
+
+    stage.addEventListener('mousemove', (e) => { setFromPoint(e.clientX, e.clientY); glow.classList.add('active'); });
+    stage.addEventListener('mouseleave', () => { targetX = -9999; targetY = -9999; glow.classList.remove('active'); });
+
+    stage.addEventListener('touchstart', (e) => {
+      if (!e.touches || !e.touches[0]) return;
+      setFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+      glow.classList.add('active');
+    }, { passive:true });
+    stage.addEventListener('touchmove', (e) => {
+      if (!e.touches || !e.touches[0]) return;
+      setFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive:true });
+    stage.addEventListener('touchend', () => { targetX = -9999; targetY = -9999; glow.classList.remove('active'); });
+
+    function loop(){
+      curX += (targetX - curX) * 0.4;
+      curY += (targetY - curY) * 0.4;
+      glow.style.left = curX + 'px';
+      glow.style.top = curY + 'px';
+      requestAnimationFrame(loop);
+    }
+    loop();
+  })();
+
+  /* ===================== Metrics slate — cursor glow reveal (replaces ripple dot grid) ===================== */
+  (function(){
+    const panel = document.getElementById('slatePanel');
+
+    // Facts come straight from your real project data (the `entries` array above) —
+    // nothing generic or random-per-se, just your actual case studies/PRDs/projects.
+    const factPool = entries.map(e => ({
+      label: `${e.tagLabel} · ${e.word}`,
+      value: e.stat ? e.stat.value : e.word
+    }));
+
+    const SLOT_COUNT = 6;
+    // fixed 3x2 zones with jitter — guarantees labels never overlap each other
+    const zones = [
+      {x:0.16,y:0.28},{x:0.5,y:0.22},{x:0.84,y:0.30},
+      {x:0.18,y:0.74},{x:0.5,y:0.78},{x:0.82,y:0.72}
+    ];
+    function zonePos(i){
+      const z = zones[i % zones.length];
+      return { x: z.x + (Math.random()*0.06 - 0.03), y: z.y + (Math.random()*0.06 - 0.03) };
+    }
+    function pickFacts(n){
+      const shuffled = [...factPool].sort(() => Math.random() - 0.5);
+      return shuffled.slice(0, n);
+    }
+
+    let mouseX = -1000, mouseY = -1000, activeMouse = false;
+    let w = panel.clientWidth, h = panel.clientHeight;
+    window.addEventListener('resize', () => { w = panel.clientWidth; h = panel.clientHeight; });
+
+    function setFromPoint(clientX, clientY){
+      const r = panel.getBoundingClientRect();
+      mouseX = clientX - r.left; mouseY = clientY - r.top;
+      activeMouse = true;
+    }
+    panel.addEventListener('mousemove', (e) => setFromPoint(e.clientX, e.clientY));
+    panel.addEventListener('mouseleave', () => { activeMouse = false; mouseX = -1000; mouseY = -1000; });
+    panel.addEventListener('touchstart', (e) => { if (e.touches[0]) setFromPoint(e.touches[0].clientX, e.touches[0].clientY); }, { passive:true });
+    panel.addEventListener('touchmove', (e) => { if (e.touches[0]) setFromPoint(e.touches[0].clientX, e.touches[0].clientY); }, { passive:true });
+    panel.addEventListener('touchend', () => { activeMouse = false; mouseX = -1000; mouseY = -1000; });
+
+    // soft glow that follows the cursor, same visual language as the hero spotlight
+    const glow = document.createElement('div');
+    glow.className = 'slate-glow';
+    panel.appendChild(glow);
+    let glowX = -1000, glowY = -1000;
+
+    // build DOM labels, one per zone so they can't collide
+    let currentFacts = pickFacts(SLOT_COUNT);
+    const labelEls = currentFacts.map((f, i) => {
+      const pos = zonePos(i);
+      const el = document.createElement('div');
+      el.className = 'metric-label';
+      el.style.left = (pos.x*100) + '%';
+      el.style.top = (pos.y*100) + '%';
+      el.innerHTML = f.label + '<span class="metric-value">' + f.value + '</span>';
+      panel.appendChild(el);
+      return { el, x:pos.x, y:pos.y };
+    });
+
+    // periodically reshuffle which facts show (positions stay in their own zone), with a soft fade
+    function reshuffle(){
+      const newFacts = pickFacts(SLOT_COUNT);
+      labelEls.forEach((slot, i) => {
+        const wasVisible = parseFloat(slot.el.style.opacity || '0') > 0.05;
+        const doSwap = () => {
+          const pos = zonePos(i);
+          slot.x = pos.x; slot.y = pos.y;
+          slot.el.style.left = (pos.x*100) + '%';
+          slot.el.style.top = (pos.y*100) + '%';
+          slot.el.innerHTML = newFacts[i].label + '<span class="metric-value">' + newFacts[i].value + '</span>';
+        };
+        if (wasVisible){
+          slot.el.style.transition = 'opacity .3s ease';
+          slot.el.style.opacity = 0;
+          setTimeout(doSwap, 300);
+        } else {
+          doSwap();
+        }
+      });
+    }
+    setInterval(reshuffle, 3200);
+
+    function loop(){
+      glowX += (mouseX - glowX) * 0.35;
+      glowY += (mouseY - glowY) * 0.35;
+      glow.style.left = glowX + 'px';
+      glow.style.top = glowY + 'px';
+      glow.style.opacity = activeMouse ? '1' : '0';
+
+      // update label opacity based on proximity to mouse
+      labelEls.forEach(({el, x, y}) => {
+        const lx = x * w, ly = y * h;
+        const dist = activeMouse ? Math.hypot(mouseX - lx, mouseY - ly) : 9999;
+        const opacity = Math.max(0, 1 - dist/140);
+        el.style.opacity = opacity.toFixed(2);
+      });
+
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  })();
+
+  const gridEl = document.getElementById('grid');
+  const countEl2 = document.getElementById('entry-count');
+
+  // A few hand-drawn "growth line" variants — deterministic per card index, ties into
+  // the product-metrics theme instead of leaving the cover empty.
+  const chartVariants = [
+    "M0,115 C40,105 55,65 95,72 C135,79 155,35 195,42 C235,49 255,15 300,22",
+    "M0,95 C35,110 60,90 90,60 C120,30 150,55 185,35 C220,15 260,40 300,10",
+    "M0,120 C50,118 70,90 110,85 C150,80 165,45 205,50 C245,55 270,20 300,28",
+    "M0,80 C30,60 55,75 85,50 C115,25 145,45 180,30 C215,15 250,35 300,18"
+  ];
+  function chartSVG(i){
+    const d = chartVariants[i % chartVariants.length];
+    const gid = 'cg' + i;
+    return `<svg class="card-chart" viewBox="0 0 300 140" preserveAspectRatio="none">
+      <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="var(--glow)" stop-opacity="0.4"/>
+        <stop offset="100%" stop-color="var(--glow)" stop-opacity="0"/>
+      </linearGradient></defs>
+      <path d="${d} L300,140 L0,140 Z" fill="url(#${gid})"/>
+      <path d="${d}" fill="none" stroke="var(--glow-soft)" stroke-width="2.5" opacity="0.6"/>
+    </svg>`;
+  }
+
+  function renderEntries(filter){
+    const filtered = filter === 'all' ? entries : entries.filter(e => e.type === filter);
+    countEl2.textContent = filtered.length;
+
+    gridEl.innerHTML = filtered.map((e, i) => {
+      const actions = e.links.map(l =>
+        `<a href="${l.href}" target="_blank" class="hoverable ${l.primary ? 'primary' : 'secondary'}">${l.label}</a>`
+      ).join('');
+
+      const coverContent = `<span class="card-tag">${e.tagLabel}</span><span class="card-word">${e.word}</span>`;
+      const coverStyle = e.thumb
+        ? `background-image:url('${e.thumb}'); background-size:cover; background-position:center top;`
+        : `background:${e.bg};`;
+      const chartLayer = e.thumb ? '' : chartSVG(i);
+
+      return `
+        <div class="card">
+          <div class="card-cover card-toggle hoverable" style="${coverStyle}">
+            ${chartLayer}
+            ${coverContent}
+          </div>
+          <div class="card-body">
+            <div class="card-toggle hoverable">
+              <h3>${e.title}</h3>
+              <p class="card-dek">${e.dek}</p>
+            </div>
+            <div class="card-meta">
+              <span>${e.date}</span>
+              <button type="button" class="card-toggle-btn hoverable" aria-expanded="false" aria-controls="card-detail-${i}">Details ↓</button>
+            </div>
+            <div class="card-detail" id="card-detail-${i}">
+              <div class="card-detail-inner">
+                <p class="card-summary">${e.summary}</p>
+                <div class="card-actions">${actions}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    gridEl.querySelectorAll('.card').forEach(card => {
+      function toggleCard(){
+        const isOpen = card.classList.toggle('open');
+        const btn = card.querySelector('.card-toggle-btn');
+        if (btn) btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      }
+      card.querySelectorAll('.card-toggle').forEach(t => t.addEventListener('click', toggleCard));
+      const toggleBtn = card.querySelector('.card-toggle-btn');
+      if (toggleBtn) toggleBtn.addEventListener('click', toggleCard);
+      observer.observe(card);
+    });
+  }
+
+  const observer = new IntersectionObserver((ents) => {
+    ents.forEach(entry => { if (entry.isIntersecting){ entry.target.classList.add('visible'); } });
+  }, { threshold: 0.1 });
+
+  renderEntries('all');
+
+  document.getElementById('filters').addEventListener('click', (e) => {
+    if (!e.target.classList.contains('filter-btn')) return;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    renderEntries(e.target.dataset.filter);
+  });
+
+  /* ===================== Marquee ===================== */
+  const skills = ["Product Strategy","User Research","0→1 Launches","PRDs","Growth Experiments","Stakeholder Alignment","Data-Informed Bets","Roadmapping"];
+  const marqueeHTML = skills.map(s => `<span>${s}</span>`).join('');
+  document.getElementById('marquee').innerHTML = marqueeHTML + marqueeHTML;
+
+  // Brand band — pulled straight from your real project data (entries), deduplicated
+  const brandNames = [...new Set(entries.map(e => e.title.split('—')[0].trim()))];
+  const brandHTML = brandNames.map(b => `<span>${b}</span>`).join('');
+  document.getElementById('brandMarquee').innerHTML = brandHTML + brandHTML;
+
+  // Contact form — submits to Netlify without leaving the page
+  (function(){
+    const form = document.getElementById('contactForm');
+    const status = document.getElementById('formStatus');
+    if (!form) return;
+
+    function encode(data){
+      return Object.keys(data).map(k => encodeURIComponent(k) + '=' + encodeURIComponent(data[k])).join('&');
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const payload = {};
+      formData.forEach((value, key) => { payload[key] = value; });
+
+      status.textContent = 'Sending…';
+      status.classList.remove('success');
+
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encode(payload)
+      })
+        .then(() => {
+          status.textContent = 'Thanks — I\'ll get back to you soon.';
+          status.classList.add('success');
+          form.reset();
+        })
+        .catch(() => {
+          status.textContent = 'Something went wrong — please email me directly instead.';
+        });
+    });
+  })();
+
+</script>
+
+</body>
+</html>
